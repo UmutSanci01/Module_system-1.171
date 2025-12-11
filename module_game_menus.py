@@ -7582,7 +7582,7 @@ game_menus = [
   ],
   "Yasliya elci gonder.",
   [
-    (jump_to_menu, "mnu_elci_konus_koy_yaslisi"),
+    (call_script, "script_start_elder_conversation"),
   ]
 ),
 
@@ -8828,18 +8828,6 @@ game_menus = [
            (jump_to_menu, "mnu_town_tournament"),
         ]),
 
-# Sehir kodlari    
-("talk_town_guildmaster_by_messenger",
-  [
-    (store_skill_level, ":lead", skl_leadership, "trp_player"),
-    (ge, ":lead", 5),
-  ],
-  "Lonca baskanina elci gonder.",
-  [
-    (jump_to_menu, "mnu_elci_konus_lonca_baskani"),
-  ]
-),
-
       ("town_castle",[        
           (party_slot_eq,"$current_town",slot_party_type, spt_town),        
           (eq,"$entry_to_town_forbidden",0),        
@@ -9301,6 +9289,18 @@ game_menus = [
 #           (jump_to_scene,"$pout_scn_smithy"),
 #           (change_screen_mission,0),
 #        ]),
+
+# Lonca baskani elci
+("talk_town_guildmaster_by_messenger",
+  [
+    (store_skill_level, ":lead", skl_leadership, "trp_player"),
+    (ge, ":lead", 5),
+  ],
+  "Lonca baskanina elci gonder.",
+  [
+    (call_script, "script_start_guildmaster_conversation"),
+  ]
+),
 
       
       ("town_merchant",

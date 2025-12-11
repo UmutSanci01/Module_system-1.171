@@ -29011,6 +29011,34 @@ scripts = [
     (try_end),  
   ]),
 
+("start_elder_conversation",
+[
+    (party_get_slot, ":elder_troop", "$current_town", slot_town_elder),
+
+    # (try_begin),
+    #   (lt, ":elder_troop", 0),
+    #   (display_message, "@Bu köyde yasli yok."),
+    #   (try_end),
+
+    (call_script, "script_setup_troop_meeting", ":elder_troop", -1),
+
+    (start_map_conversation, ":elder_troop"),
+]),
+
+("start_guildmaster_conversation",
+[
+    (party_get_slot, ":merchant_troop", "$current_town", slot_town_elder),
+
+    # (try_begin),
+    #   (lt, ":guild_troop", 0),
+    #   (display_message, "@Bu şehirde lonca başkanı yok."),
+    #   (try_end),
+
+    (call_script, "script_setup_troop_meeting", ":merchant_troop", -1),
+    (start_map_conversation, ":merchant_troop"),
+]),
+
+
 
   # script_cf_enter_center_location_bandit_check
   # Input: none
