@@ -7573,6 +7573,20 @@ game_menus = [
            (change_screen_mission),
          (try_end),
         ],"Door to the village center."),
+
+      # Umudun Kodlari
+("talk_village_elder_by_messenger",
+  [
+    (store_skill_level, ":lead", skl_leadership, "trp_player"),
+    (ge, ":lead", 5),
+  ],
+  "Yasliya elci gonder.",
+  [
+    (jump_to_menu, "mnu_elci_konus_koy_yaslisi"),
+  ]
+),
+
+
       ("village_buy_food",[(party_slot_eq, "$current_town", slot_village_state, 0),
                            (neg|party_slot_ge, "$current_town", slot_village_infested_by_bandits, 1),
                            ],"Buy supplies from the peasants.",
@@ -7598,7 +7612,10 @@ game_menus = [
            (change_screen_trade, ":merchant_troop"),
          (try_end),
          ]),
+        
 
+        
+        
       ("village_attack_bandits",[(party_slot_ge, "$current_town", slot_village_infested_by_bandits, 1),],
        "Attack the bandits.",
        [(party_get_slot, ":bandit_troop", "$current_town", slot_village_infested_by_bandits),
@@ -7726,7 +7743,23 @@ game_menus = [
       "Forget it.",[(jump_to_menu,"mnu_village")]),
     ],
   ),
-  
+
+
+  # Umudun kodlari
+("elci_konus_koy_yaslisi", 0,
+    " ",
+    "none",
+    [
+        (party_get_slot, ":elder_troop", "$current_town", slot_town_elder),
+
+        (call_script, "script_setup_troop_meeting", ":elder_troop", -1),
+        (start_map_conversation, ":elder_troop"),
+    ],
+    []
+),
+
+
+
   (
     "recruit_volunteers",0,
     "{s18}",
@@ -8794,7 +8827,19 @@ game_menus = [
            (assign, "$g_tournament_next_team_size", 0),
            (jump_to_menu, "mnu_town_tournament"),
         ]),
-      
+
+# Sehir kodlari    
+("talk_town_guildmaster_by_messenger",
+  [
+    (store_skill_level, ":lead", skl_leadership, "trp_player"),
+    (ge, ":lead", 5),
+  ],
+  "Lonca baskanina elci gonder.",
+  [
+    (jump_to_menu, "mnu_elci_konus_lonca_baskani"),
+  ]
+),
+
       ("town_castle",[        
           (party_slot_eq,"$current_town",slot_party_type, spt_town),        
           (eq,"$entry_to_town_forbidden",0),        
@@ -9513,7 +9558,8 @@ game_menus = [
         (jump_to_scene,":enterprise_scene"),
         (change_screen_mission),
       ],"Door to your enterprise."), 
-
+    
+    
     ("visit_lady",
 	[
 	
@@ -10070,6 +10116,24 @@ game_menus = [
         ]),
     ]
   ),
+
+("elci_konus_lonca_baskani", 0,
+    " ",
+    "none",
+    [
+        (party_get_slot, ":merchant_troop", "$current_town", slot_town_elder),
+
+        (try_begin),
+          (ge, ":merchant_troop", 0),
+          (call_script, "script_setup_troop_meeting", ":merchant_troop", -1),
+          (start_map_conversation, ":merchant_troop"),
+        (else_try),
+          (display_message, "@Bu sehirde lonca baskani yok."),
+        (try_end),
+    ],
+    []
+),
+
 
   (
     "town_tournament",mnf_disable_all_keys,
