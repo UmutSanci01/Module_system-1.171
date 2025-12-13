@@ -636,6 +636,93 @@ multiplayer_battle_window_opened = (
     (start_presentation, "prsnt_multiplayer_team_score_display"),
     ])
 
+# Template for fire damage / Ates hasari icin taslak
+common_campfire_damage = (
+  1, 0, 0,
+  [
+    (get_player_agent_no, ":player_agent"),
+    (agent_is_active, ":player_agent"),
+    (agent_is_alive, ":player_agent"),
+  ],
+  [
+    (get_player_agent_no, ":player_agent"),
+    (agent_get_position, pos1, ":player_agent"),
+    (assign, ":is_burning", 0),
+    
+    # Check cooking_fire (common in villages)
+    (try_begin),
+        (scene_prop_get_num_instances, ":num_instances", "spr_cooking_fire"),
+        (gt, ":num_instances", 0),
+        (try_for_range, ":i", 0, ":num_instances"),
+           (scene_prop_get_instance, ":prop_instance", "spr_cooking_fire", ":i"),
+           (prop_instance_get_position, pos2, ":prop_instance"),
+           (get_distance_between_positions, ":dist", pos1, pos2),
+           (lt, ":dist", 50),
+           (assign, ":is_burning", 1),
+           (assign, ":num_instances", 0), # break loop
+        (try_end),
+    (try_end),
+
+    # Check fireplace_a
+    (try_begin),
+        (eq, ":is_burning", 0),
+        (scene_prop_get_num_instances, ":num_instances", "spr_fireplace_a"),
+        (gt, ":num_instances", 0),
+        (try_for_range, ":i", 0, ":num_instances"),
+           (scene_prop_get_instance, ":prop_instance", "spr_fireplace_a", ":i"),
+           (prop_instance_get_position, pos2, ":prop_instance"),
+           (get_distance_between_positions, ":dist", pos1, pos2),
+           (lt, ":dist", 70),
+           (assign, ":is_burning", 1),
+           (assign, ":num_instances", 0),
+        (try_end),
+    (try_end),
+
+    # Check fireplace_b
+    (try_begin),
+        (eq, ":is_burning", 0),
+        (scene_prop_get_num_instances, ":num_instances", "spr_fireplace_b"),
+        (gt, ":num_instances", 0),
+        (try_for_range, ":i", 0, ":num_instances"),
+           (scene_prop_get_instance, ":prop_instance", "spr_fireplace_b", ":i"),
+           (prop_instance_get_position, pos2, ":prop_instance"),
+           (get_distance_between_positions, ":dist", pos1, pos2),
+           (lt, ":dist", 70),
+           (assign, ":is_burning", 1),
+           (assign, ":num_instances", 0),
+        (try_end),
+    (try_end),
+
+    # Check fireplace_c
+    (try_begin),
+        (eq, ":is_burning", 0),
+        (scene_prop_get_num_instances, ":num_instances", "spr_fireplace_c"),
+        (gt, ":num_instances", 0),
+        (try_for_range, ":i", 0, ":num_instances"),
+           (scene_prop_get_instance, ":prop_instance", "spr_fireplace_c", ":i"),
+           (prop_instance_get_position, pos2, ":prop_instance"),
+           (get_distance_between_positions, ":dist", pos1, pos2),
+           (lt, ":dist", 70),
+           (assign, ":is_burning", 1),
+           (assign, ":num_instances", 0),
+        (try_end),
+    (try_end),
+
+    (try_begin),
+        (eq, ":is_burning", 1),
+        (store_agent_hit_points, ":hp", ":player_agent", 1),
+        (val_sub, ":hp", 5), # Take 5 true damage (bypassing armor)
+        (try_begin),
+            (le, ":hp", 0),
+            (agent_deliver_damage_to_agent, ":player_agent", ":player_agent", 5), # Ensure death
+        (else_try),
+            (agent_set_hit_points, ":player_agent", ":hp", 1),
+            (display_message, "@Cok sicak! Yaniyorsun!", 0xFF4444),
+            (agent_play_sound, ":player_agent", "snd_man_grunt"),
+        (try_end),
+    (try_end),
+  ])
+
 
 common_battle_mission_start = (
   ti_before_mission_start, 0, 0, [],
@@ -1358,6 +1445,8 @@ mission_templates = [
         (try_end),  
       ], []),
 
+      common_campfire_damage,
+
 	  #tavern brawl triggers - drunk
       (2, 0, 0, 
       [
@@ -1870,6 +1959,9 @@ mission_templates = [
                                 (try_end),
                               (try_end),
                               (set_trigger_result,1)], []),
+      
+      common_campfire_damage,
+
       (ti_on_leave_area, 0, 0, [
           (try_begin),
             (assign,"$g_leave_town",1),

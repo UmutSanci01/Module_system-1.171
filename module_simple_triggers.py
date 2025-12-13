@@ -4050,4 +4050,24 @@ simple_triggers = [
    []),
   (24,
    []),
+
+  # Player Healing Notification
+  (1,
+   [
+     (neg|map_free), # Only when camping/waiting (in a menu)
+     (store_troop_health, ":cur_health", "trp_player"),
+     (try_begin),
+         (gt, ":cur_health", "$g_last_notified_health"),
+         (store_sub, ":diff", ":cur_health", "$g_last_notified_health"),
+         (ge, ":diff", 10),
+         (assign, "$g_last_notified_health", ":cur_health"),
+         (assign, reg0, ":cur_health"),
+         (display_message, "@Saglig %{reg0} seviyesine yukseldi.", 0x00CC00), # Health increased to X%
+     (else_try),
+         (lt, ":cur_health", "$g_last_notified_health"),
+         (assign, "$g_last_notified_health", ":cur_health"), # Reset on damage
+     (try_end),
+   ]),
+
+
 ]
