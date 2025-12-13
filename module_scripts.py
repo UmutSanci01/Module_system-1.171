@@ -29015,13 +29015,8 @@ scripts = [
 [
     (party_get_slot, ":elder_troop", "$current_town", slot_town_elder),
 
-    # (try_begin),
-    #   (lt, ":elder_troop", 0),
-    #   (display_message, "@Bu köyde yasli yok."),
-    #   (try_end),
-
-    (call_script, "script_setup_troop_meeting", ":elder_troop", -1),
-
+    (assign, "$g_talk_troop", ":elder_troop"),
+    (assign, "$g_menu_source", 1),
     (start_map_conversation, ":elder_troop"),
 ]),
 

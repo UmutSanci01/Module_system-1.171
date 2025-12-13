@@ -7575,16 +7575,18 @@ game_menus = [
         ],"Door to the village center."),
 
       # Umudun Kodlari
-("talk_village_elder_by_messenger",
-  [
-    (store_skill_level, ":lead", skl_leadership, "trp_player"),
-    (ge, ":lead", 5),
-  ],
-  "Yasliya elci gonder.",
-  [
-    (call_script, "script_start_elder_conversation"),
-  ]
-),
+      ("talk_village_elder",
+       [
+           (store_skill_level, ":leadership", skl_leadership, "trp_player"),
+           (ge, ":leadership", 5),
+           (party_get_slot, ":elder_troop", "$current_town", slot_town_elder),
+           (gt, ":elder_troop", 0),
+        ],
+       "Koy yaslisiyla konus.",
+       [
+           (party_get_slot, ":elder_troop", "$current_town", slot_town_elder),
+           (call_script, "script_setup_troop_meeting", ":elder_troop", -1),
+        ]),
 
 
       ("village_buy_food",[(party_slot_eq, "$current_town", slot_village_state, 0),
@@ -9291,16 +9293,18 @@ game_menus = [
 #        ]),
 
 # Lonca baskani elci
-("talk_town_guildmaster_by_messenger",
-  [
-    (store_skill_level, ":lead", skl_leadership, "trp_player"),
-    (ge, ":lead", 5),
-  ],
-  "Lonca baskanina elci gonder.",
-  [
-    (call_script, "script_start_guildmaster_conversation"),
-  ]
-),
+      ("talk_guild_master",
+       [
+           (store_skill_level, ":leadership", skl_leadership, "trp_player"),
+           (ge, ":leadership", 5),
+           (party_get_slot, ":merchant_troop", "$current_town", slot_town_elder),
+           (gt, ":merchant_troop", 0),
+        ],
+       "Lonca baskaniyla konus.",
+       [
+           (party_get_slot, ":merchant_troop", "$current_town", slot_town_elder),
+           (call_script, "script_setup_troop_meeting", ":merchant_troop", -1),
+        ]),
 
       
       ("town_merchant",
