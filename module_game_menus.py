@@ -7543,6 +7543,22 @@ game_menus = [
            (jump_to_menu, "mnu_recruit_volunteers"),
          (try_end),
         ]),
+
+      # Show "Talk to elder." button if first meet with elder.
+      (
+          "talk_elder", [(neg|party_slot_eq, "$current_town", slot_village_state, svs_looted),
+                         (neg|party_slot_eq, "$current_town", slot_village_state, svs_being_raided),
+                         (neg|party_slot_ge, "$current_town", slot_village_infested_by_bandits, 1)
+                        ],
+            "Talk with elder.",
+            [
+              (try_begin),
+                (call_script, "script_cf_enter_center_location_bandit_check"),
+                (else_try),
+                  (display_message, "@Butona basildi!"),
+                (try_end),
+            ], "Door to the village center."),
+
       ("village_center",[(neg|party_slot_eq, "$current_town", slot_village_state, svs_looted),
                          (neg|party_slot_eq, "$current_town", slot_village_state, svs_being_raided),
                          (neg|party_slot_ge, "$current_town", slot_village_infested_by_bandits, 1),]
@@ -8833,6 +8849,23 @@ game_menus = [
            (try_end),
         ], "Door to the castle."),
       
+      # Show "Talk to guild master." button if first meet with guild master.
+      (
+          "talk_guild_master", 
+          [
+              (party_slot_eq, "$current_town", slot_party_type, spt_town),
+              (this_or_next|eq,"$entry_to_town_forbidden",0),
+              (eq, "$sneaked_into_town",1)
+          ], "Talk with guild master.",
+            [
+              (try_begin),
+                (call_script, "script_cf_enter_center_location_bandit_check"),
+                (else_try),
+                  (display_message, "@Lonca baskaniyla konusuluyor!"),
+                (try_end),
+            ], "Door to the town center."),
+
+
       ("town_center",
       [                        
         (party_slot_eq, "$current_town", slot_party_type, spt_town),
@@ -8865,7 +8898,7 @@ game_menus = [
              (try_begin), #there are 6 guards at day time (no fire ext)
                (ge, ":cur_day_hour", 6),
                (lt, ":cur_day_hour", 22),
-               (set_visitors, 25, ":tier_2_troop", 2),
+               (set_visitors, 25, ":tier_2_troop", 2), # Sanirim kapidaki 2 gardiyan. Hepsi toplam 6.
                (set_visitors, 26, ":tier_2_troop", 1),
                (set_visitors, 27, ":tier_3_troop", 2),
                (set_visitors, 28, ":tier_4_troop", 1),
