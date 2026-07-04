@@ -7548,14 +7548,21 @@ game_menus = [
       (
           "talk_elder", [(neg|party_slot_eq, "$current_town", slot_village_state, svs_looted),
                          (neg|party_slot_eq, "$current_town", slot_village_state, svs_being_raided),
-                         (neg|party_slot_ge, "$current_town", slot_village_infested_by_bandits, 1)
+                         (neg|party_slot_ge, "$current_town", slot_village_infested_by_bandits, 1),
+                         # Daha once yasli ile konustuk mu kontrolu yapiyoruz.
+                         # pary_get_slot, parti slotunu(partiye ait bilgilerin tutuldugu yapi) al ve ":koy_yaslisi" lokal degiskenine ata.
+                         # "$current_town", haritada bulundugum koy veya sehirin town_elder slotu.
+                         (party_get_slot, ":koy_yaslisi", "$current_town", slot_town_elder),
+                         # ":koy_yaslisi" degiskenindeki slot'un troop_met degeri 1 mi?
+                         (troop_slot_eq, ":koy_yaslisi", slot_troop_met, 1),
                         ],
             "Talk with elder.",
             [
               (try_begin),
                 (call_script, "script_cf_enter_center_location_bandit_check"),
                 (else_try),
-                  (display_message, "@Butona basildi!"),
+                  (display_message, "@Ihtiyarla konustun!"), # 
+                  # (jump_to_menu, "mnu_lord_relations"),
                 (try_end),
             ], "Door to the village center."),
 
@@ -8855,7 +8862,12 @@ game_menus = [
           [
               (party_slot_eq, "$current_town", slot_party_type, spt_town),
               (this_or_next|eq,"$entry_to_town_forbidden",0),
-              (eq, "$sneaked_into_town",1)
+              (eq, "$sneaked_into_town",1),
+
+              # Lonca baskaniyla daha once karsilasildi mi?
+              # slot_town_elder, koy icin yasliyi sehir icin baskani verirmis.
+              (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
+              (troop_slot_eq, ":lonca_baskani", slot_troop_met, 1),
           ], "Talk with guild master.",
             [
               (try_begin),
