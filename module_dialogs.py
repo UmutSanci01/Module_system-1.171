@@ -22335,13 +22335,13 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
 
 
   
-  
+  # Encountered party = oyunda tıkladığım ve muhattab olduğum her şey. Bir grup veya bir şehir ya da bir köy.
   
   [anyone,"mayor_investment_possible",[
-  (party_slot_ge, "$g_encountered_party", slot_center_player_enterprise, 1),
-  (party_get_slot, ":item_produced", "$g_encountered_party", slot_center_player_enterprise),
-  (call_script, "script_get_enterprise_name", ":item_produced"),
-  (str_store_string, s4, reg0),
+  (party_slot_ge, "$g_encountered_party", slot_center_player_enterprise, 1), # Zaten 1 veya daha fazla dükkkanın var mı?
+  (party_get_slot, ":item_produced", "$g_encountered_party", slot_center_player_enterprise), # Var olan dükanının ne olduğunu çekiyor.
+  (call_script, "script_get_enterprise_name", ":item_produced"), # Dükkan ismini alıyor.
+  (str_store_string, s4, reg0), # Çağırılan scriptin döndüğü reg0'daki string değeri s4'e yazıyor.
   ], "You already operate a {s4} here. There probably aren't enough skilled tradesmen to start a second enterprise.", "mayor_pretalk",[
   ]],
 
@@ -22351,7 +22351,7 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
   ]],  
   
   [anyone,"mayor_investment_possible",[
-  (lt,"$g_encountered_party_relation",0),
+  (lt,"$g_encountered_party_relation",0), # İlişki 0'dan küçük mü diye bakıyor.
   (str_store_string, s9, "str_enterprise_enemy_realm"),
 	], "{s9}", "mayor_pretalk",[
 	]],
@@ -25496,11 +25496,11 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
                     (str_store_party_name, s10, "$current_town"),
                      ], "Good day, {sir/madame}. Always an honor to have you here in {s10}.", "close_window",[]],
 
-  [anyone,"start", [(eq, "$talk_context", 0),
+ 
+ [anyone,"start", [(eq, "$talk_context", 0),
                     (is_between,"$g_talk_troop",regular_troops_begin, regular_troops_end),
                     (is_between,"$g_encountered_party_faction",kingdoms_begin, kingdoms_end),
                      ], "Mind your manners within the walls and we'll have no trouble.", "close_window",[]],
-
   [anyone,"start", [(eq, "$talk_context", tc_court_talk),
                     (is_between,"$g_talk_troop",regular_troops_begin, regular_troops_end),
                     (is_between,"$g_encountered_party_faction",kingdoms_begin, kingdoms_end),
