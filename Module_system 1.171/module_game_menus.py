@@ -9624,6 +9624,9 @@ game_menus = [
             (call_script, "script_cf_enter_center_location_bandit_check"),
           (else_try),
             (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
+
+            (assign, "$town_entered", 1),
+
             (call_script, "script_setup_troop_meeting", ":lonca_baskani", 0),
           (try_end),
         ]),
@@ -9637,6 +9640,7 @@ game_menus = [
            (try_begin),
              (call_script, "script_cf_enter_center_location_bandit_check"),
            (else_try),
+             (assign, "$town_entered", 1),
              (jump_to_menu,"mnu_town_trade"),
            (try_end),
           ]),
@@ -9752,6 +9756,7 @@ game_menus = [
         (assign, "$g_town_visit_after_rest", 1),
         (assign, "$g_last_rest_center", "$current_town"),
         (assign, "$g_last_rest_payment_until", -1),
+        (assign, "$town_entered", 1),
 
         (try_begin),
           (party_is_active, "p_main_party"),
