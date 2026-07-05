@@ -4051,7 +4051,7 @@ simple_triggers = [
   (24,
    []),
   # --- Player Health Notification ---
-  (3, # her saatte bir calisir.
+  (9, # belirtilen saatte bir kez calisir.
     [
       (neg|map_free),
       # Yuzde cinsinden oyuncunun canini saklar.
@@ -4064,13 +4064,13 @@ simple_triggers = [
         
         (assign, reg1, ":mevcut_can"),
         
-        (display_message, "@Dinleniyorsun... (%{reg1})", 0xC0FFF9),
+        (display_message, "str_healing_progress", 0xC0FFF9),
       (try_end),
       
       (try_begin),
         (gt, ":mevcut_can", "$g_oyuncu_son_can"),
         (eq, ":mevcut_can", 100),
-        (display_message, "@Eskisinden bile iyi hissediyorsun!!", 0xC0FFF9),
+        (display_message, "str_healing_complete", 0xC0FFF9),
       (try_end),
       
       (assign, "$g_oyuncu_son_can", ":mevcut_can"),
