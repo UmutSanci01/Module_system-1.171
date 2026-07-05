@@ -7564,7 +7564,7 @@ game_menus = [
                   (party_get_slot, ":koy_yaslisi", "$current_town", slot_town_elder),
                   (call_script, "script_setup_troop_meeting", ":koy_yaslisi", 0),
                 (try_end),
-            ], "Door to the village center."),
+            ], "Hizli Konusmak Icin Kapi."),
 
       ("village_center",[(neg|party_slot_eq, "$current_town", slot_village_state, svs_looted),
                          (neg|party_slot_eq, "$current_town", slot_village_state, svs_being_raided),
@@ -8856,29 +8856,6 @@ game_menus = [
            (try_end),
         ], "Door to the castle."),
       
-      # Show "Talk to guild master." button if first meet with guild master.
-      (
-          "talk_guild_master", 
-          [
-              (party_slot_eq, "$current_town", slot_party_type, spt_town),
-              (this_or_next|eq,"$entry_to_town_forbidden",0),
-              (eq, "$sneaked_into_town",1),
-
-              # Lonca baskaniyla daha once karsilasildi mi?
-              # slot_town_elder, koy icin yasliyi sehir icin baskani verirmis.
-              (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
-              (troop_slot_eq, ":lonca_baskani", slot_troop_met, 1),
-          ], "Talk with guild master.",
-            [
-              (try_begin),
-                (call_script, "script_cf_enter_center_location_bandit_check"),
-                (else_try),
-                  (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
-                  (call_script, "script_setup_troop_meeting", ":lonca_baskani", 0),
-                (try_end),
-            ], "Door to the town center."),
-
-
       ("town_center",
       [                        
         (party_slot_eq, "$current_town", slot_party_type, spt_town),
@@ -9628,6 +9605,29 @@ game_menus = [
         (jump_to_menu, "mnu_lady_visit"),
         ], "Door to the garden."),										
 		
+      # Show "Talk to guild master." button if first meet with guild master.
+      
+    (
+      "talk_guild_master", 
+      [
+          (party_slot_eq, "$current_town", slot_party_type, spt_town),
+          (this_or_next|eq,"$entry_to_town_forbidden",0),
+          (eq, "$sneaked_into_town",1),
+
+          # Lonca baskaniyla daha once karsilasildi mi?
+          # slot_town_elder, koy icin yasliyi sehir icin baskani verirmis.
+          (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
+          (troop_slot_eq, ":lonca_baskani", slot_troop_met, 1),
+      ], "Talk with guild master.",
+        [
+          (try_begin),
+            (call_script, "script_cf_enter_center_location_bandit_check"),
+          (else_try),
+            (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
+            (call_script, "script_setup_troop_meeting", ":lonca_baskani", 0),
+          (try_end),
+        ]),
+
       ("trade_with_merchants",
        [
            (party_slot_eq,"$current_town",slot_party_type, spt_town)
@@ -9838,6 +9838,7 @@ game_menus = [
         (assign, "$g_permitted_to_center",0),
         (change_screen_return,0),
       ],"Leave Area."),
+
 
       ("castle_cheat_interior",
       [
