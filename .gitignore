@@ -1,2 +1,2 @@
 *.txt !Variables.txt !flora_kinds.txt !ground_specs.txt !readme.txt !skyboxes.txt !STEPS.txt
-**\*.pyc
+*.pyc
