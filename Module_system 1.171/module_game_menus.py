@@ -9626,6 +9626,8 @@ game_menus = [
             (party_get_slot, ":lonca_baskani", "$current_town", slot_town_elder),
 
             (assign, "$town_entered", 1),
+            # module_scripts.py icindeki get_meeting_scene script'inde kullaniliyor.
+            (assign, "$g_hizli_sohbet", 1),
 
             (call_script, "script_setup_troop_meeting", ":lonca_baskani", 0),
           (try_end),
