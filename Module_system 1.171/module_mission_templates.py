@@ -1532,17 +1532,58 @@ mission_templates = [
   (
     "conversation_encounter",0,-1,
     "Conversation_encounter",
-    [( 0,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 1,mtef_visitor_source,af_override_fullhelm,0,1,[]),
+    [( 0,mtef_visitor_source,af_override_horse|af_override_fullhelm,0,1,[]),( 1,mtef_visitor_source,af_override_fullhelm,0,1,[]),
      ( 2,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 3,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 4,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 5,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 6,mtef_visitor_source,af_override_fullhelm,0,1,[]),
      ( 7,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 8,mtef_visitor_source,af_override_fullhelm,0,1,[]),( 9,mtef_visitor_source,af_override_fullhelm,0,1,[]),(10,mtef_visitor_source,af_override_fullhelm,0,1,[]),(11,mtef_visitor_source,af_override_fullhelm,0,1,[]),
     #prisoners now...
      (12,mtef_visitor_source,af_override_fullhelm,0,1,[]),(13,mtef_visitor_source,af_override_fullhelm,0,1,[]),(14,mtef_visitor_source,af_override_fullhelm,0,1,[]),(15,mtef_visitor_source,af_override_fullhelm,0,1,[]),(16,mtef_visitor_source,af_override_fullhelm,0,1,[]),
     #Other party
-     (17,mtef_visitor_source,af_override_fullhelm,0,1,[]),(18,mtef_visitor_source,af_override_fullhelm,0,1,[]),(19,mtef_visitor_source,af_override_fullhelm,0,1,[]),(20,mtef_visitor_source,af_override_fullhelm,0,1,[]),(21,mtef_visitor_source,af_override_fullhelm,0,1,[]),
+     (17,mtef_visitor_source,af_override_horse|af_override_fullhelm,0,1,[]),(18,mtef_visitor_source,af_override_fullhelm,0,1,[]),(19,mtef_visitor_source,af_override_fullhelm,0,1,[]),(20,mtef_visitor_source,af_override_fullhelm,0,1,[]),(21,mtef_visitor_source,af_override_fullhelm,0,1,[]),
      (22,mtef_visitor_source,af_override_fullhelm,0,1,[]),(23,mtef_visitor_source,af_override_fullhelm,0,1,[]),(24,mtef_visitor_source,af_override_fullhelm,0,1,[]),(25,mtef_visitor_source,af_override_fullhelm,0,1,[]),(26,mtef_visitor_source,af_override_fullhelm,0,1,[]),
      (27,mtef_visitor_source,af_override_fullhelm,0,1,[]),(28,mtef_visitor_source,af_override_fullhelm,0,1,[]),(29,mtef_visitor_source,af_override_fullhelm,0,1,[]),(30,mtef_visitor_source,af_override_fullhelm,0,1,[]),(31,mtef_visitor_source,af_override_fullhelm,0,1,[]),
      ],
-    [],
+    [     
+      (ti_after_mission_start, 0.0, 0.0, 
+        [
+          (eq, "$g_yuz_yuze_bak", 1),
+        ],
+        [
+          (assign, "$g_yuz_yuze_bak", 0),
+          
+          (get_player_agent_no, ":player_agent"),
+          
+          (try_for_agents, ":agent_no"),
+            (agent_is_active, ":agent_no"),
+            (agent_is_human, ":agent_no"),
+            (neq, ":agent_no", ":player_agent"),
+            (agent_get_troop_id, ":troop_id", ":agent_no"),
+            (eq, ":troop_id", "$g_talk_troop"),
+            
+            (agent_get_position, pos1, ":agent_no"),
+            
+            (agent_get_position, pos1, ":agent_no"),
+            (agent_get_position, pos2, ":player_agent"),
+            (get_distance_between_positions, ":mesafe", pos1, pos2),
+            
+            (try_begin),
+              (gt, ":mesafe", 150),
+              
+              (get_angle_between_positions, ":aci", pos1, pos2),
+              
+              (position_rotate_z, pos1, ":aci", 1),
+              
+              (position_move_y, pos1, 150),
+              
+              (position_rotate_z, pos1, 180), 
+              
+              (agent_set_position, ":player_agent", pos1),
+            (try_end),
+
+            (agent_set_look_target_agent, ":player_agent", ":agent_no"),
+            (agent_set_look_target_agent, ":agent_no", ":player_agent"),
+          (try_end),
+        ]),
+        ],
   ),
   
 #----------------------------------------------------------------

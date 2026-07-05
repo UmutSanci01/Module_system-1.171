@@ -9628,6 +9628,8 @@ game_menus = [
             (assign, "$town_entered", 1),
             # module_scripts.py icindeki get_meeting_scene script'inde kullaniliyor.
             (assign, "$g_hizli_sohbet", 1),
+            # module_mission_templates.py conversation_encounter icinde kullaniliyor.
+            (assign, "$g_yuz_yuze_bak", 1),
 
             (call_script, "script_setup_troop_meeting", ":lonca_baskani", 0),
           (try_end),

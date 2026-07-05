@@ -50797,5 +50797,32 @@ scripts = [
     (cur_tableau_add_sun_light, pos8, 175,150,125),
     ]),
    #INVASION MODE END
-     
+    
+    ("update_hud_stats",
+      [
+          # --- 1. ERZAK SAYIMI ---
+        (assign, ":toplam_erzak", 0),
+        (troop_get_inventory_capacity, ":canta_kapasitesi", "trp_player"),
+        
+        (try_for_range, ":slot_no", 10, ":canta_kapasitesi"),
+          (troop_get_inventory_slot, ":esya_id", "trp_player", ":slot_no"),
+          (gt, ":esya_id", -1),
+          (item_get_type, ":esya_turu", ":esya_id"),
+          (is_between, ":esya_id", food_begin, food_end),
+
+          (troop_inventory_slot_get_item_amount, ":kalan_porsiyon", "trp_player", ":slot_no"),
+        
+          (try_begin),
+            (eq, ":kalan_porsiyon", 0),
+            (troop_inventory_slot_get_item_max_amount, ":kalan_porsiyon", "trp_player", ":slot_no"),
+          (try_end),
+
+          (val_add, ":toplam_erzak", ":kalan_porsiyon"),
+        (try_end),
+        (assign, "$g_guncel_erzak", ":toplam_erzak"),
+        
+        # --- 2. PARA SAYIMI ---
+        (store_troop_gold, "$g_guncel_para", "trp_player"),
+      ]
+    )
 ]

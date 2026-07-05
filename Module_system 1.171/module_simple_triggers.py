@@ -4075,4 +4075,15 @@ simple_triggers = [
       
       (assign, "$g_oyuncu_son_can", ":mevcut_can"),
     ]),
+
+# --- ERZAK ve PARA SAYIMI ---
+  (12,
+    [
+      (call_script, "script_update_hud_stats"),
+      
+      (assign, reg1, "$g_guncel_erzak"),
+      (assign, reg2, "$g_guncel_para"),
+      
+      (display_message, "@Sayim Raporu -> Erzak: {reg1} Adet | Para: {reg2} Dinar", 0x33DDFF),
+    ]),
 ]
