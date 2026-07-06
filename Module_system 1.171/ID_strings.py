@@ -3399,5 +3399,6 @@ str_npc15_1 = 3397
 str_npc16_1 = 3398
 str_healing_progress = 3399
 str_healing_complete = 3400
+str_custom_player_party_name = 3401
 
 

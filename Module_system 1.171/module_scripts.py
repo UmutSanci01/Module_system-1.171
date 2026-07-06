@@ -50807,7 +50807,7 @@ scripts = [
         (try_for_range, ":slot_no", 10, ":canta_kapasitesi"),
           (troop_get_inventory_slot, ":esya_id", "trp_player", ":slot_no"),
           (gt, ":esya_id", -1),
-          (item_get_type, ":esya_turu", ":esya_id"),
+          
           (is_between, ":esya_id", food_begin, food_end),
 
           (troop_inventory_slot_get_item_amount, ":kalan_porsiyon", "trp_player", ":slot_no"),

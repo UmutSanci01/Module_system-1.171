@@ -4341,4 +4341,5 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   
   ("healing_progress", "Resting... (%{reg1})"),
   ("healing_complete", "Fully healed!"),
+  ("custom_player_party_name", "{s1} (Supplies: {reg1} | Wealth: {reg2})"),
 ]

@@ -4077,13 +4077,15 @@ simple_triggers = [
     ]),
 
 # --- ERZAK ve PARA SAYIMI ---
-  (12,
+  (10,
     [
       (call_script, "script_update_hud_stats"),
       
       (assign, reg1, "$g_guncel_erzak"),
       (assign, reg2, "$g_guncel_para"),
       
-      (display_message, "@Sayim Raporu -> Erzak: {reg1} Adet | Para: {reg2} Dinar", 0x33DDFF),
+      (str_store_troop_name, s1, "trp_player"),
+      
+      (party_set_name, "p_main_party", "str_custom_player_party_name"),
     ]),
 ]
